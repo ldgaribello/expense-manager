@@ -24,6 +24,7 @@ module.exports = {
   },
   devtool: "cheap-module-eval-source-map",
   devServer: {
-    contentBase: BUILD_DIR
+    contentBase: BUILD_DIR,
+    historyApiFallback: true
   }
 };

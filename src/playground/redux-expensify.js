@@ -2,10 +2,8 @@ import { createStore, combineReducers } from "redux";
 
 console.log("This is the expensify reducer...");
 
-// Expenses Reducer
-
+// Expenses reducer
 const expensesDefaultState = [];
-
 const expensesReducer = (state = expensesDefaultState, action) => {
   switch (action.type) {
     default:
@@ -13,11 +11,29 @@ const expensesReducer = (state = expensesDefaultState, action) => {
   }
 };
 
+// Filters reducer
+const filtersDefaultState = {
+  text: "",
+  sortBy: "date",
+  startDate: undefined,
+  endDate: undefined
+};
+const filtersReducer = (state = filtersDefaultState, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
 // Store creation
+const store = createStore(
+  combineReducers({
+    expenses: expensesReducer,
+    filters: filtersReducer
+  })
+);
 
-const store = createStore(expensesReducer);
-
-console.log(store);
+console.log(store.getState());
 
 const demoState = {
   expenses: [
@@ -31,7 +47,7 @@ const demoState = {
   ],
   filters: {
     text: "rent",
-    sortBy: "amount",
+    sortBy: "amount", // amount or date
     startDate: undefined,
     endDate: undefined
   }

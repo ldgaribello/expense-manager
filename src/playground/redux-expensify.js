@@ -3,6 +3,8 @@ import uuid from "uuid";
 
 console.log("This is the expensify reducer...");
 
+// Expenses actions
+// ADD_EXPENSE
 const addExpense = ({
   description = "",
   note = "",
@@ -13,12 +15,20 @@ const addExpense = ({
   expense: { id: uuid(), description, note, amount, createdAt }
 });
 
+// REMOVE_EXPENSE
+const removeExpense = ({ id } = {}) => ({
+  type: "REMOVE_EXPENSE",
+  id
+});
+
 // Expenses reducer
 const expensesDefaultState = [];
 const expensesReducer = (state = expensesDefaultState, action) => {
   switch (action.type) {
     case "ADD_EXPENSE":
-      return state.concat(action.expense);
+      return [...state, action.expense];
+    case "REMOVE_EXPENSE":
+      return state.filter(expense => expense.id !== action.id);
     default:
       return state;
   }
@@ -49,7 +59,13 @@ store.subscribe(() => {
   console.log(store.getState());
 });
 
-store.dispatch(addExpense({ description: "Rent", amount: 100 }));
+const expenseOne = store.dispatch(
+  addExpense({ description: "Rent", amount: 1000 })
+);
+const expenseTwo = store.dispatch(
+  addExpense({ description: "Coffee", amount: 300 })
+);
+store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 
 const demoState = {
   expenses: [

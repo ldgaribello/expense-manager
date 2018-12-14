@@ -1,5 +1,6 @@
 import { createStore, combineReducers } from "redux";
 import uuid from "uuid";
+import { type } from "os";
 
 console.log("This is the expensify reducer...");
 
@@ -119,6 +120,21 @@ const filtersReducer = (state = filtersDefaultState, action) => {
   }
 };
 
+// Filter expenses
+const filterExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
+  return expenses.filter(expense => {
+    const startDateMatch =
+      typeof startDate !== "number" || expense.createdAt >= startDate;
+    const endDateMatch =
+      typeof endDate !== "number" || expense.createdAt <= endDate;
+    const textMatch =
+      text === undefined ||
+      expense.description.toLowerCase().includes(text.toLowerCase());
+
+    return startDateMatch && endDateMatch && textMatch;
+  });
+};
+
 // Store creation
 const store = createStore(
   combineReducers({
@@ -126,26 +142,29 @@ const store = createStore(
     filters: filtersReducer
   })
 );
+
 store.subscribe(() => {
-  console.log(store.getState());
+  const state = store.getState();
+  const filteredExpenses = filterExpenses(state.expenses, state.filters);
+  console.log(filteredExpenses);
 });
 
 const expenseOne = store.dispatch(
-  addExpense({ description: "Rent", amount: 1000 })
+  addExpense({ description: "Rent", amount: 1000, createdAt: -1000 })
 );
 const expenseTwo = store.dispatch(
-  addExpense({ description: "Coffee", amount: 300 })
+  addExpense({ description: "Coffee", amount: 300, createdAt: 3000 })
 );
-store.dispatch(removeExpense({ id: expenseOne.expense.id }));
+//store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 store.dispatch(editExpense(expenseTwo.expense.id, { amount: 500 }));
 
 store.dispatch(setTextFilter("Rent"));
 store.dispatch(setTextFilter());
 store.dispatch(sortByAmount());
 store.dispatch(sortByDate());
-store.dispatch(setStartDate(125));
+store.dispatch(setStartDate(-2000));
 store.dispatch(setStartDate());
-store.dispatch(setEndDate(1250));
+store.dispatch(setEndDate(5000));
 
 const demoState = {
   expenses: [

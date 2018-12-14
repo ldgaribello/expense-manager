@@ -122,17 +122,25 @@ const filtersReducer = (state = filtersDefaultState, action) => {
 
 // Filter expenses
 const filterExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
-  return expenses.filter(expense => {
-    const startDateMatch =
-      typeof startDate !== "number" || expense.createdAt >= startDate;
-    const endDateMatch =
-      typeof endDate !== "number" || expense.createdAt <= endDate;
-    const textMatch =
-      text === undefined ||
-      expense.description.toLowerCase().includes(text.toLowerCase());
+  return expenses
+    .filter(expense => {
+      const startDateMatch =
+        typeof startDate !== "number" || expense.createdAt >= startDate;
+      const endDateMatch =
+        typeof endDate !== "number" || expense.createdAt <= endDate;
+      const textMatch =
+        text === undefined ||
+        expense.description.toLowerCase().includes(text.toLowerCase());
 
-    return startDateMatch && endDateMatch && textMatch;
-  });
+      return startDateMatch && endDateMatch && textMatch;
+    })
+    .sort((a, b) => {
+      if (sortBy === "date") {
+        return a.createdAt < b.createdAt ? 1 : -1;
+      } else if (sortBy === "amount") {
+        return a.amount < b.amount ? 1 : -1;
+      }
+    });
 };
 
 // Store creation
@@ -153,14 +161,17 @@ const expenseOne = store.dispatch(
   addExpense({ description: "Rent", amount: 1000, createdAt: -1000 })
 );
 const expenseTwo = store.dispatch(
-  addExpense({ description: "Coffee", amount: 300, createdAt: 3000 })
+  addExpense({ description: "Coffee", amount: 300, createdAt: 5000 })
+);
+const expenseThree = store.dispatch(
+  addExpense({ description: "Diner", amount: 300, createdAt: 3000 })
 );
 //store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 store.dispatch(editExpense(expenseTwo.expense.id, { amount: 500 }));
 
-store.dispatch(setTextFilter("Rent"));
-store.dispatch(setTextFilter());
-store.dispatch(sortByAmount());
+//store.dispatch(setTextFilter("Rent"));
+//store.dispatch(setTextFilter());
+//store.dispatch(sortByAmount());
 store.dispatch(sortByDate());
 store.dispatch(setStartDate(-2000));
 store.dispatch(setStartDate());

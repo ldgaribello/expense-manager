@@ -166,12 +166,15 @@ const expenseTwo = store.dispatch(
 const expenseThree = store.dispatch(
   addExpense({ description: "Diner", amount: 300, createdAt: 3000 })
 );
-//store.dispatch(removeExpense({ id: expenseOne.expense.id }));
+const expenseFour = store.dispatch(
+  addExpense({ description: "Breakfast", amount: 200, createdAt: 1000 })
+);
+store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 store.dispatch(editExpense(expenseTwo.expense.id, { amount: 500 }));
 
-//store.dispatch(setTextFilter("Rent"));
-//store.dispatch(setTextFilter());
-//store.dispatch(sortByAmount());
+store.dispatch(setTextFilter("Rent"));
+store.dispatch(setTextFilter());
+store.dispatch(sortByAmount());
 store.dispatch(sortByDate());
 store.dispatch(setStartDate(-2000));
 store.dispatch(setStartDate());

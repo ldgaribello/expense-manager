@@ -1,6 +1,5 @@
 import { createStore, combineReducers } from "redux";
 import uuid from "uuid";
-import { type } from "os";
 
 console.log("This is the expensify reducer...");
 

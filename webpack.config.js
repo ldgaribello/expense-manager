@@ -1,6 +1,7 @@
 const path = require("path");
 
 const APP_DIR = path.join(__dirname, "src");
+const PLAYGROUND_DIR = path.join(__dirname, "src/playground");
 const BUILD_DIR = path.join(__dirname, "public");
 
 module.exports = {

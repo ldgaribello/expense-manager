@@ -4,7 +4,9 @@ import { Provider } from "react-redux";
 
 import AppRouter from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
+
 import { addExpense } from "./actions/expenses";
+import { setTextFilter } from "./actions/filters";
 
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
@@ -24,7 +26,13 @@ store.dispatch(
   addExpense({ description: "Breakfast", amount: 200, createdAt: 1000 })
 );
 
+store.dispatch(setTextFilter("f"));
+
 console.log(store.getState());
+
+setTimeout(() => {
+  store.dispatch(setTextFilter("r"));
+}, 4000);
 
 ReactDOM.render(
   <Provider store={store}>

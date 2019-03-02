@@ -25,6 +25,9 @@ store.dispatch(
 store.dispatch(
   addExpense({ description: "Breakfast", amount: 200, createdAt: 1000 })
 );
+store.dispatch(
+  addExpense({ description: "Lunch", amount: 800, createdAt: 2000 })
+);
 
 store.dispatch(setTextFilter("f"));
 

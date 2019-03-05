@@ -53,7 +53,12 @@ class ExpenseForm extends React.Component {
         error: undefined
       }));
 
-      console.log("Submitted");
+      this.props.onSubmit({
+        description: this.state.description,
+        amount: parseFloat(this.state.amount, 10) * 100,
+        createdAt: this.state.createdAt.valueOf(),
+        note: this.state.note
+      });
     }
   };
 
@@ -75,11 +80,6 @@ class ExpenseForm extends React.Component {
             value={this.state.amount}
             onChange={this.onAmountChange}
           />
-          <textarea
-            placeholder="Add a note for your expense (optional)"
-            value={this.state.note}
-            onChange={this.onNoteChange}
-          />
           <SingleDatePicker
             date={this.state.createdAt} // momentPropTypes.momentObj or null
             onDateChange={this.onDateChange} // PropTypes.func.isRequired
@@ -88,6 +88,11 @@ class ExpenseForm extends React.Component {
             id="your_unique_id" // PropTypes.string.isRequired,
             numberOfMonths={1}
             isOutsideRange={() => false}
+          />
+          <textarea
+            placeholder="Add a note for your expense (optional)"
+            value={this.state.note}
+            onChange={this.onNoteChange}
           />
           <button>Save</button>
         </form>

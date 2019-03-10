@@ -89,7 +89,7 @@ class ExpenseForm extends React.Component {
             onDateChange={this.onDateChange} // PropTypes.func.isRequired
             focused={this.state.calendarFocused} // PropTypes.bool
             onFocusChange={this.onFocusChange} // PropTypes.func.isRequired
-            id="your_unique_id" // PropTypes.string.isRequired,
+            id="single_date_picker" // PropTypes.string.isRequired,
             numberOfMonths={1}
             isOutsideRange={() => false}
           />
